@@ -18,7 +18,7 @@ begin
                 skuInput = gets.chomp
                     puts "Sku     Title            Year    Inventory    Minutes    Price"
                     puts "---     -----            ----    ---------    -------    -----"
-                @db.execute("SELECT * FROM dvds WHERE sku = #{skuInput}") do |row|
+                @db.execute("SELECT * FROM dvds WHERE sku = #{sku_input}") do |row|
                     puts "#{row[0]}   #{row[1]}       #{row[2]}    #{row[3]}           #{row[4]}        #{row[5]}"
                 end
 
@@ -26,7 +26,7 @@ begin
             when "2"
                 puts "Inventory      Sku     Title"
                 puts "---------     -----    ------"
-                @db.execute("SELECT numInInventory, sku, movieName FROM dvds WHERE numInInventory > 0") do |row|
+                @db.execute("SELECT num_in_inventory, sku, movie_name FROM dvds WHERE num_in_inventory > 0") do |row|
                     puts "#{row[0]}             #{row[1]}    #{row[2]}"
 
                 end
@@ -34,29 +34,29 @@ begin
 
             when "3"
                 puts "Enter/Scan DVD Sku."
-                saleSku = gets.chomp
-                @db.execute "UPDATE dvds SET numInInventory = numInInventory - 1 WHERE sku = #{saleSku}"
+                sale_sku = gets.chomp
+                @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory - 1 WHERE sku = #{sale_sku}"
 
             when "4"
                 puts "Enter Sku."
-                skuInsert = gets.chomp
+                sku_insert = gets.chomp
                 puts "Enter DVD title."
-                titleInsert = gets.chomp
+                title_insert = gets.chomp
                 puts "Enter release year."
-                yearInsert = gets.chomp
+                year_insert = gets.chomp
                 puts "Enter length of film in minutes."
-                lengthInsert = gets.chomp
+                length_insert = gets.chomp
                 puts "Enter price."
-                priceInsert=gets.chomp
+                price_insert=gets.chomp
 
                 #isThereInventory = @db.execute "SELECT sku FROM dvds WHERE sku = #{skuInsert}"
-                @db.execute "INSERT INTO dvds VALUES(#{skuInsert}, '#{titleInsert}', '#{yearInsert}', 1, #{lengthInsert}, #{priceInsert})"
+                @db.execute "INSERT INTO dvds VALUES(#{sku_insert}, '#{title_insert}', '#{year_insert}', 1, #{length_insert}, #{price_insert})"
 
             when "5"
                 puts "Enter sku of the DVD you wish to update."
-                updateSku = gets.chomp
+                update_sku = gets.chomp
                 puts "Enter the number of copies you are adding to inventory."
-                updateQuantity = gets.chomp
+                update_quantity = gets.chomp
                 @db.execute "UPDATE dvds SET numInInventory = numInInventory + #{updateQuantity} WHERE sku = #{updateSku}"
 
             when "6"
@@ -72,13 +72,13 @@ begin
 
 	@db = SQLite3::Database.open "database.db"
 	puts "Enter Employee ID:"
-	empID = gets.chomp
+	emp_id = gets.chomp
 	puts "Enter Password:"
-	passInput = gets.chomp
+	pass_input = gets.chomp
 
-	empPass = @db.execute "SELECT password FROM employees WHERE employeeID = #{empID}"
+	emp_pass = @db.execute "SELECT password FROM employees WHERE employeeID = #{empID}"
 
-	if empPass.flatten.first == passInput
+	if emp_pass.flatten.first == pass_input
 	   menu
 	end
 
