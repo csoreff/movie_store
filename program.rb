@@ -57,7 +57,7 @@ begin
                 update_sku = gets.chomp
                 puts "Enter the number of copies you are adding to inventory."
                 update_quantity = gets.chomp
-                @db.execute "UPDATE dvds SET numInInventory = numInInventory + #{updateQuantity} WHERE sku = #{updateSku}"
+                @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory + #{update_quantity} WHERE sku = #{update_sku}"
 
             when "6"
                 puts "Goodbye!"
@@ -76,7 +76,7 @@ begin
 	puts "Enter Password:"
 	pass_input = gets.chomp
 
-	emp_pass = @db.execute "SELECT password FROM employees WHERE employeeID = #{empID}"
+	emp_pass = @db.execute "SELECT password FROM employees WHERE employee_id = #{emp_id}"
 
 	if emp_pass.flatten.first == pass_input
 	   menu
