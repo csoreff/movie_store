@@ -2,6 +2,8 @@
 
 require 'sqlite3'
 
+@db = SQLite3::Database.open "database.db"
+
 def find_dvd
   puts "Enter sku"
   skuInput = gets.chomp
@@ -80,7 +82,6 @@ end
 
 begin
   menu
-  @db = SQLite3::Database.open "database.db"
   puts "Enter Employee ID:"
   emp_id = gets.chomp
   puts "Enter Password:"
