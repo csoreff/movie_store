@@ -2,6 +2,53 @@
 
 require 'sqlite3'
 
+def find_dvd
+  puts "Enter sku"
+  skuInput = gets.chomp
+  puts "Sku     Title            Year    Inventory    Minutes    Price"
+  puts "---     -----            ----    ---------    -------    -----"
+  @db.execute("SELECT * FROM dvds WHERE sku = #{sku_input}") do |row|
+    puts "#{row[0]}   #{row[1]}       #{row[2]}    #{row[3]}           #{row[4]}        #{row[5]}"
+  end
+end
+
+def display_all_inventory
+  puts "Inventory      Sku     Title"
+  puts "---------     -----    ------"
+  @db.execute("SELECT num_in_inventory, sku, movie_name FROM dvds WHERE num_in_inventory > 0") do |row|
+    puts "#{row[0]}             #{row[1]}    #{row[2]}"
+  end
+end
+
+def enter_sale
+  puts "Enter/Scan DVD Sku."
+  sale_sku = gets.chomp
+  @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory - 1 WHERE sku = #{sale_sku}"
+end
+
+def add_dvd_to_inv
+  puts "Enter Sku."
+  sku_insert = gets.chomp
+  puts "Enter DVD title."
+  title_insert = gets.chomp
+  puts "Enter release year."
+  year_insert = gets.chomp
+  puts "Enter length of film in minutes."
+  length_insert = gets.chomp
+  puts "Enter price."
+  price_insert = gets.chomp
+  @db.execute "INSERT INTO dvds VALUES(#{sku_insert}, '#{title_insert}',
+    '#{year_insert}', 1, #{length_insert}, #{price_insert})"
+end
+
+def update_inv
+  puts "Enter sku of the DVD you wish to update."
+  update_sku = gets.chomp
+  puts "Enter the number of copies you are adding to inventory."
+  update_quantity = gets.chomp
+  @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory +
+    #{update_quantity} WHERE sku = #{update_sku}"
+end
 def menu
   i = 0
   loop do
@@ -11,41 +58,15 @@ def menu
 
     case input
     when "1"
-      puts "Enter sku"
-      skuInput = gets.chomp
-      puts "Sku     Title            Year    Inventory    Minutes    Price"
-      puts "---     -----            ----    ---------    -------    -----"
-      @db.execute("SELECT * FROM dvds WHERE sku = #{sku_input}") do |row|
-        puts "#{row[0]}   #{row[1]}       #{row[2]}    #{row[3]}           #{row[4]}        #{row[5]}"
-      end
+      find_dvd
     when "2"
-      puts "Inventory      Sku     Title"
-      puts "---------     -----    ------"
-      @db.execute("SELECT num_in_inventory, sku, movie_name FROM dvds WHERE num_in_inventory > 0") do |row|
-        puts "#{row[0]}             #{row[1]}    #{row[2]}"
-      end
+      display_all_inventory
     when "3"
-      puts "Enter/Scan DVD Sku."
-      sale_sku = gets.chomp
-      @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory - 1 WHERE sku = #{sale_sku}"
+      enter_sale
     when "4"
-      puts "Enter Sku."
-      sku_insert = gets.chomp
-      puts "Enter DVD title."
-      title_insert = gets.chomp
-      puts "Enter release year."
-      year_insert = gets.chomp
-      puts "Enter length of film in minutes."
-      length_insert = gets.chomp
-      puts "Enter price."
-      price_insert = gets.chomp
-      @db.execute "INSERT INTO dvds VALUES(#{sku_insert}, '#{title_insert}', '#{year_insert}', 1, #{length_insert}, #{price_insert})"
+      add_dvd_to_inv
     when "5"
-      puts "Enter sku of the DVD you wish to update."
-      update_sku = gets.chomp
-      puts "Enter the number of copies you are adding to inventory."
-      update_quantity = gets.chomp
-      @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory + #{update_quantity} WHERE sku = #{update_sku}"
+      update_inv
     when "6"
       puts "Goodbye!"
       i = 1
