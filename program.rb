@@ -85,9 +85,7 @@ begin
   emp_id = gets.chomp
   puts "Enter Password:"
   pass_input = gets.chomp
-
   emp_pass = @db.execute "SELECT password FROM employees WHERE employee_id = #{emp_id}"
-
   menu if emp_pass.flatten.first == pass_input
 
   rescue SQLite3::Exception => e
