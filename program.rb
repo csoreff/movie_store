@@ -81,7 +81,6 @@ def menu
 end
 
 begin
-  menu
   puts "Enter Employee ID:"
   emp_id = gets.chomp
   puts "Enter Password:"
