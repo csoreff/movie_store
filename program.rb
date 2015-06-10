@@ -49,6 +49,7 @@ def update_inv
   @db.execute "UPDATE dvds SET num_in_inventory = num_in_inventory +
     #{update_quantity} WHERE sku = #{update_sku}"
 end
+
 def menu
   i = 0
   loop do
