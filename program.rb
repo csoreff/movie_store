@@ -6,7 +6,7 @@ require 'sqlite3'
 
 def find_dvd
   puts "Enter sku"
-  skuInput = gets.chomp
+  sku_input = gets.chomp
   puts "Sku     Title            Year    Inventory    Minutes    Price"
   puts "---     -----            ----    ---------    -------    -----"
   @db.execute("SELECT * FROM dvds WHERE sku = #{sku_input}") do |row|
